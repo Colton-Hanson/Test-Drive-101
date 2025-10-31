@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bill Payment Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>💳 Bill Payment Dashboard</h1>
+            <p class="subtitle">Manage all your bills and accounts in one place</p>
+        </header>
+
+        <!-- Summary Cards -->
+        <div class="summary-cards">
+            <div class="card summary-card">
+                <h3>Total Balance</h3>
+                <p class="amount" id="totalBalance">$0.00</p>
+                <small>Across all accounts</small>
+            </div>
+            <div class="card summary-card">
+                <h3>Total Due</h3>
+                <p class="amount danger" id="totalDue">$0.00</p>
+                <small>Unpaid bills</small>
+            </div>
+            <div class="card summary-card">
+                <h3>Urgent Bills</h3>
+                <p class="amount warning" id="urgentBills">0</p>
+                <small>Due within 7 days</small>
+            </div>
+        </div>
+
+        <!-- Bank Accounts Section -->
+        <section class="section">
+            <div class="section-header">
+                <h2>💰 Bank Accounts</h2>
+                <button class="btn btn-primary" onclick="connectPlaid()">+ Connect Account</button>
+            </div>
+            <div id="accountsContainer" class="accounts-grid">
+                <p class="empty-state">No accounts connected yet. Click "Connect Account" to get started.</p>
+            </div>
+        </section>
+
+        <!-- Bills Section -->
+        <section class="section">
+            <div class="section-header">
+                <h2>📋 Bills</h2>
+                <button class="btn btn-primary" onclick="showAddBillModal()">+ Add Bill</button>
+            </div>
+            <div id="billsContainer">
+                <p class="empty-state">No bills added yet. Click "Add Bill" to get started.</p>
+            </div>
+        </section>
+    </div>
+
+    <!-- Add Bill Modal -->
+    <div id="addBillModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeAddBillModal()">&times;</span>
+            <h2>Add New Bill</h2>
+            <form id="addBillForm" onsubmit="addBill(event)">
+                <div class="form-group">
+                    <label for="companyName">Company Name *</label>
+                    <input type="text" id="companyName" required>
+                </div>
+                <div class="form-group">
+                    <label for="amount">Amount *</label>
+                    <input type="number" id="amount" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="dueDate">Due Date *</label>
+                    <input type="date" id="dueDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="category">Category</label>
+                    <select id="category">
+                        <option value="utilities">Utilities</option>
+                        <option value="rent">Rent</option>
+                        <option value="insurance">Insurance</option>
+                        <option value="healthcare">Healthcare</option>
+                        <option value="subscription">Subscription</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="paymentUrl">Payment URL</label>
+                    <input type="url" id="paymentUrl" placeholder="https://...">
+                </div>
+                <div class="form-group">
+                    <label for="notes">Notes</label>
+                    <textarea id="notes" rows="3"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeAddBillModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add Bill</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
